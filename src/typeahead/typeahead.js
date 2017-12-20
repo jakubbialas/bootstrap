@@ -87,6 +87,8 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
     var showHint = originalScope.$eval(attrs.typeaheadShowHint) || false;
 
+    var reopenOnClick = originalScope.$eval(attrs.typeaheadReopenOnClick) || false;
+
     //INTERNAL VARIABLES
 
     //model setter executed upon match selection
@@ -474,6 +476,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
         if (!$rootScope.$$phase) {
           originalScope.$digest();
         }
+      } else if (reopenOnClick && element[0] === evt.target && modelCtrl.$viewValue && modelCtrl.$viewValue.length) {
+        element.focus();
+        hasFocus = true;
+        getMatchesAsync(modelCtrl.$viewValue, evt);
       }
     };
 
